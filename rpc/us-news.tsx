@@ -19,6 +19,15 @@ export default function USNews() {
     );
   }
 
+  const getCleanContent = (text: string | null | undefined) => {
+    if (!text) return '';
+    // Remove common NewsAPI truncation suffix like "[+123 chars]" and trailing ellipses
+    return text
+      .replace(/\s*\[\+\d+\s*chars\]\s*$/i, '')
+      .replace(/…\s*$/u, '')
+      .trim();
+  };
+
   return (
     <>
       <style jsx>{`
@@ -99,13 +108,29 @@ export default function USNews() {
                       </div>
                     </div>
                   </div>
+                  {article.image_url && (
+                    <div className="hidden sm:block ml-2 flex-shrink-0">
+                      <img
+                        src={article.image_url}
+                        alt={article.title || 'Article image'}
+                        className="w-24 h-24 object-cover rounded-md border"
+                      />
+                    </div>
+                  )}
                 </div>
               </summary>
               
               <div className="article-content-overlay mt-6 p-8 rounded-xl">
                 <div className="max-w-none">
+                  {article.image_url && (
+                    <img
+                      src={article.image_url}
+                      alt={article.title || 'Article image'}
+                      className="w-full max-h-96 object-cover rounded-lg mb-6"
+                    />
+                  )}
                   <div className="reading-content whitespace-pre-line text-gray-800 mb-6">
-                    {article.content}
+                    {getCleanContent(article.content) || article.summary}
                   </div>
                   <div className="flex justify-start">
                     <a 

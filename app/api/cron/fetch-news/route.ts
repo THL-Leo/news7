@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db.mjs';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     // Verify this request is from Vercel Cron
@@ -122,12 +124,12 @@ export async function GET(request: Request) {
     console.error('Error in fetch-news cron:', error);
     return NextResponse.json({ 
       success: false, 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
 
 // Allow manual testing by supporting POST as well
-export async function POST() {
-  return GET();
+export async function POST(request: Request) {
+  return GET(request);
 }

@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import Navigation from "@/components/Navigation";
 import USNews from "@/rpc/us-news";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Daily News | AI-Powered US News",
   description: "Stay informed with the top 7 most important US news stories, powered by AI and delivered fresh daily.",
@@ -15,7 +17,7 @@ export default function HomePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Today's US News
+            Today&apos;s US News
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             The 7 most important stories from across the United States, curated by AI and updated daily

@@ -5,6 +5,8 @@ import Navigation from "@/components/Navigation";
 import USNews from "@/rpc/us-news";
 import { MapPin, Clock } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 // Define available countries and their configurations
 const countries = {
   // global: { // Commented out to focus on US news
@@ -19,6 +21,12 @@ const countries = {
     description: "The 7 most important stories from across the United States, curated by AI and updated daily",
     component: USNews,
     hasNews: true,
+    color: 'blue',
+    emoji: '🇺🇸',
+    details: [
+      "Top 7 most important US news stories daily",
+      "AI-powered ranking of political, economic, and social news"
+    ]
   },
   // canada: {
   //   title: "Canada News",
@@ -118,8 +126,8 @@ export default function CountryNewsPage({ params }: PageProps) {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
             <div className="mb-6">
-              <div className={`p-4 bg-${config.color}-100 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center`}>
-                <span className="text-4xl">{config.emoji}</span>
+              <div className={`p-4 bg-${config.color || 'gray'}-100 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center`}>
+                <span className="text-4xl">{config.emoji || '📰'}</span>
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{config.title}</h1>
               <p className="text-lg text-gray-600">{config.description}</p>
@@ -131,9 +139,9 @@ export default function CountryNewsPage({ params }: PageProps) {
                 {config.details?.map((detail, index) => (
                   <div key={index} className="flex items-start space-x-2">
                     {index === 0 ? (
-                      <MapPin size={16} className={`text-${config.color}-600 mt-1 flex-shrink-0`} />
+                      <MapPin size={16} className={`text-${config.color || 'gray'}-600 mt-1 flex-shrink-0`} />
                     ) : (
-                      <Clock size={16} className={`text-${config.color}-600 mt-1 flex-shrink-0`} />
+                      <Clock size={16} className={`text-${config.color || 'gray'}-600 mt-1 flex-shrink-0`} />
                     )}
                     <span>{detail}</span>
                   </div>
@@ -142,7 +150,7 @@ export default function CountryNewsPage({ params }: PageProps) {
             </div>
 
             <p className="text-gray-500 text-sm">
-              We're working on bringing you comprehensive coverage of {config.title.toLowerCase()}. 
+              We&apos;re working on bringing you comprehensive coverage of {config.title.toLowerCase()}. 
               In the meantime, check out our <a href="/" className="text-blue-600 hover:text-blue-500 font-medium">US News</a> section.
             </p>
           </div>

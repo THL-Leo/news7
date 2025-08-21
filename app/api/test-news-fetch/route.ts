@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db.mjs';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     // This is a test endpoint that you can call manually
@@ -51,7 +53,7 @@ export async function GET(request: Request) {
     console.error('Error in test-news-fetch:', error);
     return NextResponse.json({ 
       success: false, 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }

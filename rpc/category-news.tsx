@@ -13,7 +13,7 @@ export default function CategoryNews({ category }: { category: string }) {
       AND published_date = CURRENT_DATE
       AND category = ${category}
     ORDER BY rank ASC
-  `;
+  ` as { title: string; source_name: string; rank: number; published_date: string | Date; category: string; summary?: string | null }[];
 
   if (!articles || articles.length === 0) {
     return (

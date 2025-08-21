@@ -54,7 +54,7 @@ export default function Navigation() {
           {/* Navigation - Category-based news navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <>
-              <Link
+              {/* <Link
                 href="/"
                 aria-current={isActive("/") ? "page" : undefined}
                 className={`${linkBase} ${isActive("/") ? active : inactive}`}
@@ -102,7 +102,7 @@ export default function Navigation() {
                 className={`${linkBase} ${isActive("/category/health") ? active : inactive}`}
               >
                 🏥 Health
-              </Link>
+              </Link> */}
             </>
             {/* <div className="relative">
               <button

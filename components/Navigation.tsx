@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { Github, ChevronDown, Globe } from "lucide-react";
+import { Github } from "lucide-react";
 
 export default function Navigation() {
   // Commenting out navigation state for now to focus on US news
@@ -23,6 +22,12 @@ export default function Navigation() {
   //     setIsAmericasOpen(false);
   //   }, 300); // 300ms delay before hiding
   // };
+
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href;
+  const linkBase = "font-medium transition-colors";
+  const inactive = "text-gray-700 hover:text-blue-600";
+  const active = "text-blue-700 border-b-2 border-blue-600";
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -48,66 +53,57 @@ export default function Navigation() {
 
           {/* Navigation - Category-based news navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            {(() => {
-              const pathname = usePathname();
-              const isActive = (href: string) => pathname === href;
-              const linkBase = "font-medium transition-colors";
-              const inactive = "text-gray-700 hover:text-blue-600";
-              const active = "text-blue-700 border-b-2 border-blue-600";
-              return (
-                <>
-                  <Link
-                    href="/"
-                    aria-current={isActive("/") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/") ? active : inactive}`}
-                  >
-                    All News
-                  </Link>
-                  <Link
-                    href="/category/business"
-                    aria-current={isActive("/category/business") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/business") ? active : inactive}`}
-                  >
-                    💼 Business
-                  </Link>
-                  <Link
-                    href="/category/technology"
-                    aria-current={isActive("/category/technology") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/technology") ? active : inactive}`}
-                  >
-                    🚀 Technology
-                  </Link>
-                  <Link
-                    href="/category/politics"
-                    aria-current={isActive("/category/politics") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/politics") ? active : inactive}`}
-                  >
-                    🏛️ Politics
-                  </Link>
-                  <Link
-                    href="/category/sports"
-                    aria-current={isActive("/category/sports") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/sports") ? active : inactive}`}
-                  >
-                    ⚽ Sports
-                  </Link>
-                  <Link
-                    href="/category/entertainment"
-                    aria-current={isActive("/category/entertainment") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/entertainment") ? active : inactive}`}
-                  >
-                    🎬 Entertainment
-                  </Link>
-                  <Link
-                    href="/category/health"
-                    aria-current={isActive("/category/health") ? "page" : undefined}
-                    className={`${linkBase} ${isActive("/category/health") ? active : inactive}`}
-                  >
-                    🏥 Health
-                  </Link>
-                </>
-              );
-            })()}
+            <>
+              <Link
+                href="/"
+                aria-current={isActive("/") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/") ? active : inactive}`}
+              >
+                All News
+              </Link>
+              <Link
+                href="/category/business"
+                aria-current={isActive("/category/business") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/business") ? active : inactive}`}
+              >
+                💼 Business
+              </Link>
+              <Link
+                href="/category/technology"
+                aria-current={isActive("/category/technology") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/technology") ? active : inactive}`}
+              >
+                🚀 Technology
+              </Link>
+              <Link
+                href="/category/politics"
+                aria-current={isActive("/category/politics") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/politics") ? active : inactive}`}
+              >
+                🏛️ Politics
+              </Link>
+              <Link
+                href="/category/sports"
+                aria-current={isActive("/category/sports") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/sports") ? active : inactive}`}
+              >
+                ⚽ Sports
+              </Link>
+              <Link
+                href="/category/entertainment"
+                aria-current={isActive("/category/entertainment") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/entertainment") ? active : inactive}`}
+              >
+                🎬 Entertainment
+              </Link>
+              <Link
+                href="/category/health"
+                aria-current={isActive("/category/health") ? "page" : undefined}
+                className={`${linkBase} ${isActive("/category/health") ? active : inactive}`}
+              >
+                🏥 Health
+              </Link>
+            </>
             {/* <div className="relative">
               <button
                 onMouseEnter={handleMouseEnter}

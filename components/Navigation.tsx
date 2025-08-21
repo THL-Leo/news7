@@ -5,22 +5,23 @@ import { useState, useRef } from "react";
 import { Github, ChevronDown, Globe } from "lucide-react";
 
 export default function Navigation() {
-  const [isAmericasOpen, setIsAmericasOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // Commenting out navigation state for now to focus on US news
+  // const [isAmericasOpen, setIsAmericasOpen] = useState(false);
+  // const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    setIsAmericasOpen(true);
-  };
+  // const handleMouseEnter = () => {
+  //   if (timeoutRef.current) {
+  //     clearTimeout(timeoutRef.current);
+  //     timeoutRef.current = null;
+  //   }
+  //   setIsAmericasOpen(true);
+  // };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsAmericasOpen(false);
-    }, 300); // 300ms delay before hiding
-  };
+  // const handleMouseLeave = () => {
+  //   timeoutRef.current = setTimeout(() => {
+  //     setIsAmericasOpen(false);
+  //   }, 300); // 300ms delay before hiding
+  // };
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -40,22 +41,22 @@ export default function Navigation() {
             </svg>
             <div>
               <h1 className="text-xl font-bold text-gray-900">Daily News</h1>
-              <p className="text-xs text-gray-500">AI-Powered News</p>
+              <p className="text-xs text-gray-500">US News Focus</p>
             </div>
           </Link>
 
-          {/* Navigation */}
+          {/* Navigation - Commented out to focus on US news */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/"
               className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors"
             >
               <Globe size={18} />
-              <span>Home</span>
+              <span>US News</span>
             </Link>
 
-            {/* Americas Dropdown */}
-            <div className="relative">
+            {/* Americas Dropdown - Commented out for now */}
+            {/* <div className="relative">
               <button
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -94,7 +95,7 @@ export default function Navigation() {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
           </nav>
 
           {/* Right side */}

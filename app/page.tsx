@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import Navigation from "@/components/Navigation";
-import GlobalNews from "@/rpc/global-news";
+import USNews from "@/rpc/us-news";
 
 export const metadata = {
-  title: "Daily News | AI-Powered Global News",
-  description: "Stay informed with the top 7 most important global and US news stories, powered by AI and delivered fresh daily.",
+  title: "Daily News | AI-Powered US News",
+  description: "Stay informed with the top 7 most important US news stories, powered by AI and delivered fresh daily.",
 };
 
 export default function HomePage() {
@@ -15,10 +15,10 @@ export default function HomePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Today's Global News
+            Today's US News
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            The 7 most important stories from around the world, curated by AI and updated daily
+            The 7 most important stories from across the United States, curated by AI and updated daily
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function HomePage() {
             ))}
           </div>
         }>
-          <GlobalNews />
+          <USNews />
         </Suspense>
       </main>
 
@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-500 text-sm">
             <p>© 2024 Daily News. Powered by AI and PostgreSQL.</p>
-            <p className="mt-2">News data sourced from NewsAPI. Stories ranked by AI importance scoring.</p>
+            <p className="mt-2">US news data sourced from NewsAPI. Stories ranked by AI importance scoring.</p>
           </div>
         </div>
       </footer>

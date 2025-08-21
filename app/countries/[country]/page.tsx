@@ -1,46 +1,46 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Navigation from "@/components/Navigation";
-import GlobalNews from "@/rpc/global-news";
+// import GlobalNews from "@/rpc/global-news"; // Commented out to focus on US news
 import USNews from "@/rpc/us-news";
 import { MapPin, Clock } from "lucide-react";
 
 // Define available countries and their configurations
 const countries = {
-  global: {
-    title: "Today's Global News",
-    description: "The 7 most important stories from around the world, curated by AI and updated daily",
-    component: GlobalNews,
-    hasNews: true,
-  },
+  // global: { // Commented out to focus on US news
+  //   title: "Today's Global News",
+  //   description: "The 7 most important stories from around the world, curated by AI and updated daily",
+  //   component: GlobalNews,
+  //   hasNews: true,
+  // },
   us: {
     title: "Today's US News", 
     description: "The 7 most important stories from across the United States, curated by AI and updated daily",
     component: USNews,
     hasNews: true,
   },
-  canada: {
-    title: "Canada News",
-    description: "Coming Soon",
-    emoji: "🇨🇦",
-    color: "red",
-    hasNews: false,
-    details: [
-      "Top 7 most important Canadian news stories daily",
-      "AI-powered ranking of political, economic, and social news"
-    ]
-  },
-  mexico: {
-    title: "Mexico News",
-    description: "Coming Soon", 
-    emoji: "🇲🇽",
-    color: "green",
-    hasNews: false,
-    details: [
-      "Top 7 most important Mexican news stories daily",
-      "AI-powered ranking of political, economic, and social news"
-    ]
-  }
+  // canada: {
+  //   title: "Canada News",
+  //   description: "Coming Soon",
+  //   emoji: "🇨🇦",
+  //   color: "red",
+  //   hasNews: false,
+  //   details: [
+  //     "Top 7 most important Canadian news stories daily",
+  //     "AI-powered ranking of political, economic, and social news"
+  //   ]
+  // },
+  // mexico: {
+  //   title: "Mexico News",
+  //   description: "Coming Soon", 
+  //   emoji: "🇲🇽",
+  //   color: "green",
+  //   hasNews: false,
+  //   details: [
+  //     "Top 7 most important Mexican news stories daily",
+  //     "AI-powered ranking of political, economic, and social news"
+  //   ]
+  // }
 } as const;
 
 type CountryKey = keyof typeof countries;
@@ -142,7 +142,7 @@ export default function CountryNewsPage({ params }: PageProps) {
 
             <p className="text-gray-500 text-sm">
               We're working on bringing you comprehensive coverage of {config.title.toLowerCase()}. 
-              In the meantime, check out our <a href="/" className="text-blue-600 hover:text-blue-500 font-medium">Global News</a> section.
+              In the meantime, check out our <a href="/" className="text-blue-600 hover:text-blue-500 font-medium">US News</a> section.
             </p>
           </div>
         </main>

@@ -5,7 +5,7 @@ export default function GlobalNews() {
       image_url, rank, published_date
     FROM articles 
     WHERE region = 'global' 
-      AND published_date = CURRENT_DATE - INTERVAL '1 day'
+      AND published_date = CURRENT_DATE
     ORDER BY rank ASC
     LIMIT 7
   `;
@@ -13,7 +13,7 @@ export default function GlobalNews() {
   if (articles.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500 font-mono">No global news available for yesterday.</p>
+        <p className="text-gray-500 font-mono">No global news available for today.</p>
         <p className="text-sm text-gray-400 font-mono mt-2">News updates coming soon...</p>
       </div>
     );

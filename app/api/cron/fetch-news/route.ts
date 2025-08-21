@@ -3,6 +3,57 @@ import { db } from '@/db.mjs';
 
 export const dynamic = 'force-dynamic';
 
+// Function to detect article category based on content
+function detectCategory(title: string, content: string): string {
+  const text = (title + ' ' + content).toLowerCase();
+  
+  // Business & Economy
+  if (text.includes('stock') || text.includes('market') || text.includes('economy') || 
+      text.includes('business') || text.includes('finance') || text.includes('trade') ||
+      text.includes('wall street') || text.includes('fed') || text.includes('inflation')) {
+    return 'business';
+  }
+  
+  // Technology
+  if (text.includes('tech') || text.includes('technology') || text.includes('ai') || 
+      text.includes('artificial intelligence') || text.includes('software') || 
+      text.includes('app') || text.includes('digital') || text.includes('cyber')) {
+    return 'technology';
+  }
+  
+  // Politics
+  if (text.includes('politics') || text.includes('congress') || text.includes('senate') ||
+      text.includes('white house') || text.includes('election') || text.includes('vote') ||
+      text.includes('democrat') || text.includes('republican') || text.includes('biden') ||
+      text.includes('trump')) {
+    return 'politics';
+  }
+  
+  // Sports
+  if (text.includes('sport') || text.includes('football') || text.includes('basketball') ||
+      text.includes('baseball') || text.includes('nfl') || text.includes('nba') ||
+      text.includes('mlb') || text.includes('soccer') || text.includes('tennis')) {
+    return 'sports';
+  }
+  
+  // Entertainment
+  if (text.includes('movie') || text.includes('film') || text.includes('celebrity') ||
+      text.includes('hollywood') || text.includes('music') || text.includes('tv') ||
+      text.includes('show') || text.includes('actor') || text.includes('actress')) {
+    return 'entertainment';
+  }
+  
+  // Health & Science
+  if (text.includes('health') || text.includes('medical') || text.includes('science') ||
+      text.includes('research') || text.includes('study') || text.includes('covid') ||
+      text.includes('vaccine') || text.includes('doctor') || text.includes('hospital')) {
+    return 'health';
+  }
+  
+  // Default category
+  return 'general';
+}
+
 export async function GET(request: Request) {
   try {
     // Verify this request is from Vercel Cron
@@ -29,9 +80,9 @@ export async function GET(request: Request) {
       throw new Error('NEWS_API_KEY environment variable not set');
     }
 
-    // Fetch news from NewsAPI
+    // Fetch news from NewsAPI - increased to 50 articles for better categorization
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}&pageSize=7`,
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}&pageSize=50`,
       {
         headers: {
           'User-Agent': 'DailyNews/1.0'
@@ -83,6 +134,9 @@ export async function GET(request: Request) {
       }
 
       try {
+        // Detect category from article content and title
+        const category = detectCategory(article.title, article.description || article.content || '');
+        
         await db`
           INSERT INTO articles (
             title, 
@@ -92,7 +146,8 @@ export async function GET(request: Request) {
             source_url, 
             region, 
             rank, 
-            published_date
+            published_date,
+            category
           ) VALUES (
             ${article.title || ''},
             ${article.content || article.description || ''},
@@ -101,7 +156,8 @@ export async function GET(request: Request) {
             ${article.url || ''},
             'us',
             ${i + 1},
-            CURRENT_DATE
+            CURRENT_DATE,
+            ${category}
           )
         `;
         insertedCount++;

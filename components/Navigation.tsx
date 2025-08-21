@@ -45,9 +45,50 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* Navigation - Cleaned up for minimal design */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {/* Americas Dropdown - Commented out for now */}
+          {/* Navigation - Category-based news navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link
+              href="/"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              All News
+            </Link>
+            <Link
+              href="/category/business"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              💼 Business
+            </Link>
+            <Link
+              href="/category/technology"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              🚀 Technology
+            </Link>
+            <Link
+              href="/category/politics"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              🏛️ Politics
+            </Link>
+            <Link
+              href="/category/sports"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              ⚽ Sports
+            </Link>
+            <Link
+              href="/category/entertainment"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              🎬 Entertainment
+            </Link>
+            <Link
+              href="/category/health"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+            >
+              🏥 Health
+            </Link>
             {/* <div className="relative">
               <button
                 onMouseEnter={handleMouseEnter}

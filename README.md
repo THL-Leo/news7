@@ -1,4 +1,4 @@
-## react-postgres-components
+## react-postgres-components 🚀
 
 <a href="https://react-postgres-components.vercel.app/">
 <img src="https://github.com/rauchg/react-postgres-components/assets/13041/7b3b83ec-15b5-4aa5-a61c-3f5e6257e424" width="300" />

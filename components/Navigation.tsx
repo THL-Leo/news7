@@ -45,16 +45,8 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* Navigation - Commented out to focus on US news */}
+          {/* Navigation - Cleaned up for minimal design */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
-              className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              <Globe size={18} />
-              <span>US News</span>
-            </Link>
-
             {/* Americas Dropdown - Commented out for now */}
             {/* <div className="relative">
               <button

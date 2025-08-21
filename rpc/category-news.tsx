@@ -2,18 +2,20 @@ export default function CategoryNews({ category }: { category: string }) {
   // Query articles by category for today
   const articles = sql`
     SELECT 
-      title, 
-      source_name, 
-      rank, 
+      title,
+      source_name,
+      rank,
       published_date,
       category,
-      summary
+      summary,
+      image_url,
+      source_url
     FROM articles 
     WHERE region = 'us' 
-      AND published_date = CURRENT_DATE
+      AND published_date = (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date
       AND category = ${category}
     ORDER BY rank ASC
-  ` as { title: string; source_name: string; rank: number; published_date: string | Date; category: string; summary?: string | null }[];
+  ` as { title: string; source_name: string; rank: number; published_date: string | Date; category: string; summary?: string | null; image_url?: string | null; source_url?: string | null }[];
 
   if (!articles || articles.length === 0) {
     return (
@@ -63,8 +65,14 @@ export default function CategoryNews({ category }: { category: string }) {
         {articles.map((article, index) => (
           <article 
             key={index}
-            className={`p-6 rounded-lg border-2 ${categoryColors[category]} hover:shadow-lg transition-shadow cursor-pointer`}
+            className={`p-6 rounded-lg border-2 ${categoryColors[category]} hover:shadow-lg transition-shadow`}
           >
+            {article.image_url && (
+              <div className="mb-4 -mt-2 -mx-2">
+                <img src={article.image_url} alt="" className="w-full h-40 object-cover rounded-md" />
+              </div>
+            )}
+
             <div className="flex items-start justify-between mb-3">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-gray-800 shadow-sm">
                 #{article.rank}
@@ -74,12 +82,12 @@ export default function CategoryNews({ category }: { category: string }) {
               </span>
             </div>
             
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-3">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">
               {article.title}
             </h3>
             
             {article.summary && (
-              <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+              <p className="text-gray-700 text-sm leading-7 mb-4">
                 {article.summary}
               </p>
             )}
@@ -88,6 +96,22 @@ export default function CategoryNews({ category }: { category: string }) {
               <span className="capitalize">{article.category}</span>
               <span>{new Date(article.published_date).toLocaleDateString()}</span>
             </div>
+
+            {article.source_url && (
+              <div className="mt-4">
+                <a
+                  href={article.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 rounded hover:bg-blue-100 transition-colors"
+                >
+                  Read full story
+                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6h7m0 0v7m0-7L6 18" />
+                  </svg>
+                </a>
+              </div>
+            )}
           </article>
         ))}
       </div>

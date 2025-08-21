@@ -5,7 +5,7 @@ export default function USNews() {
       image_url, rank, published_date
     FROM articles 
     WHERE region = 'us' 
-      AND published_date = CURRENT_DATE
+      AND published_date = (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date
     ORDER BY rank ASC
     LIMIT 7
   `;

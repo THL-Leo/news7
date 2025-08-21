@@ -108,7 +108,7 @@ export async function GET(request: Request) {
       SELECT COUNT(*) as count 
       FROM articles 
       WHERE region = 'us' 
-        AND published_date = CURRENT_DATE
+        AND published_date = (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date
         AND created_at > CURRENT_TIMESTAMP - INTERVAL '1 hour'
     `;
     
@@ -121,7 +121,7 @@ export async function GET(request: Request) {
     }
 
     // Clear old US news data
-    await db`DELETE FROM articles WHERE region = 'us' AND published_date < CURRENT_DATE`;
+    await db`DELETE FROM articles WHERE region = 'us' AND published_date < (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date`;
 
     // Insert new articles
     let insertedCount = 0;
@@ -144,6 +144,7 @@ export async function GET(request: Request) {
             summary, 
             source_name, 
             source_url, 
+            image_url,
             region, 
             rank, 
             published_date,
@@ -154,9 +155,10 @@ export async function GET(request: Request) {
             ${article.description || ''},
             ${article.source?.name || 'Unknown Source'},
             ${article.url || ''},
+            ${article.urlToImage || null},
             'us',
             ${i + 1},
-            CURRENT_DATE,
+            (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date,
             ${category}
           )
         `;

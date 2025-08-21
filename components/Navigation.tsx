@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { Github, ChevronDown, Globe } from "lucide-react";
 
 export default function Navigation() {
@@ -47,48 +48,66 @@ export default function Navigation() {
 
           {/* Navigation - Category-based news navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              All News
-            </Link>
-            <Link
-              href="/category/business"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              💼 Business
-            </Link>
-            <Link
-              href="/category/technology"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              🚀 Technology
-            </Link>
-            <Link
-              href="/category/politics"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              🏛️ Politics
-            </Link>
-            <Link
-              href="/category/sports"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              ⚽ Sports
-            </Link>
-            <Link
-              href="/category/entertainment"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              🎬 Entertainment
-            </Link>
-            <Link
-              href="/category/health"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              🏥 Health
-            </Link>
+            {(() => {
+              const pathname = usePathname();
+              const isActive = (href: string) => pathname === href;
+              const linkBase = "font-medium transition-colors";
+              const inactive = "text-gray-700 hover:text-blue-600";
+              const active = "text-blue-700 border-b-2 border-blue-600";
+              return (
+                <>
+                  <Link
+                    href="/"
+                    aria-current={isActive("/") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/") ? active : inactive}`}
+                  >
+                    All News
+                  </Link>
+                  <Link
+                    href="/category/business"
+                    aria-current={isActive("/category/business") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/business") ? active : inactive}`}
+                  >
+                    💼 Business
+                  </Link>
+                  <Link
+                    href="/category/technology"
+                    aria-current={isActive("/category/technology") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/technology") ? active : inactive}`}
+                  >
+                    🚀 Technology
+                  </Link>
+                  <Link
+                    href="/category/politics"
+                    aria-current={isActive("/category/politics") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/politics") ? active : inactive}`}
+                  >
+                    🏛️ Politics
+                  </Link>
+                  <Link
+                    href="/category/sports"
+                    aria-current={isActive("/category/sports") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/sports") ? active : inactive}`}
+                  >
+                    ⚽ Sports
+                  </Link>
+                  <Link
+                    href="/category/entertainment"
+                    aria-current={isActive("/category/entertainment") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/entertainment") ? active : inactive}`}
+                  >
+                    🎬 Entertainment
+                  </Link>
+                  <Link
+                    href="/category/health"
+                    aria-current={isActive("/category/health") ? "page" : undefined}
+                    className={`${linkBase} ${isActive("/category/health") ? active : inactive}`}
+                  >
+                    🏥 Health
+                  </Link>
+                </>
+              );
+            })()}
             {/* <div className="relative">
               <button
                 onMouseEnter={handleMouseEnter}
@@ -138,7 +157,8 @@ export default function Navigation() {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric'
+                day: 'numeric',
+                timeZone: 'America/Los_Angeles'
               })}
             </span>
             <a

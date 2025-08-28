@@ -75,8 +75,21 @@ export async function GET(request: Request) {
       }, { status: 401 });
     }
 
+    // Pre-check: if we already fetched in the last hour, skip external API call
+    const recentFetch = await db`
+      SELECT COUNT(*) AS count
+      FROM articles 
+      WHERE region = 'us' 
+        AND created_at > CURRENT_TIMESTAMP - INTERVAL '1 hour'
+    `;
+    if (Number(recentFetch[0].count || 0) > 0) {
+      return NextResponse.json({
+        success: false,
+        message: 'Skipped external fetch. Recent data exists (within 1 hour).'
+      });
+    }
+
     const apiKey = process.env.NEWS_API_KEY;
-    
     if (!apiKey) {
       throw new Error('NEWS_API_KEY environment variable not set');
     }

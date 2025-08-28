@@ -1,13 +1,5 @@
 export default function CategoryNews({ category }: { category: string }) {
   // Query articles by category for today
-  const boundary = sql`
-    WITH now_pt AS (
-      SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles') AS now_pt
-    )
-    SELECT ((now_pt - INTERVAL '6 hours')::date + INTERVAL '6 hours') AS boundary_start
-    FROM now_pt
-  `;
-
   const articles = sql`
     SELECT 
       title,
@@ -20,7 +12,7 @@ export default function CategoryNews({ category }: { category: string }) {
       source_url
     FROM articles 
     WHERE region = 'us' 
-      AND created_at >= (${boundary})
+      AND created_at >= (((CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles') - INTERVAL '6 hours')::date + INTERVAL '6 hours')
       AND category = ${category}
     ORDER BY rank ASC
   ` as { title: string; source_name: string; rank: number; published_date: string | Date; category: string; summary?: string | null; image_url?: string | null; source_url?: string | null }[];

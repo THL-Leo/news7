@@ -117,25 +117,38 @@ export async function GET(request: Request) {
       });
     }
 
-    // Check if we already fetched news today to prevent spam
+    // Define "news day" as 6am PT boundary instead of midnight
+    // Boundary calculation in SQL: now_at_pt - 6 hours → date → + 6 hours
+    const [{ boundary_start }] = await db`
+      WITH now_pt AS (
+        SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles') AS now_pt
+      )
+      SELECT ((now_pt - INTERVAL '6 hours')::date + INTERVAL '6 hours') AS boundary_start
+      FROM now_pt
+    ` as unknown as { boundary_start: string }[];
+
+    // Check if we already fetched for the current news day to prevent spam
     const existingToday = await db`
       SELECT COUNT(*) as count 
       FROM articles 
       WHERE region = 'us' 
-        AND published_date = (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date
-        AND created_at > CURRENT_TIMESTAMP - INTERVAL '1 hour'
+        AND created_at >= ${boundary_start}
     `;
     
     if (existingToday[0].count > 0) {
       return NextResponse.json({ 
         success: false, 
-        message: 'News already fetched today. Preventing spam.',
-        lastFetch: existingToday[0].count
+        message: 'News already fetched for the current news day (6am PT boundary).',
+        newsDayStart: boundary_start
       });
     }
 
-    // Clear old US news data
-    await db`DELETE FROM articles WHERE region = 'us' AND published_date < (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date`;
+    // Clear old US news data using the same 6am PT boundary for the previous news day
+    await db`
+      DELETE FROM articles 
+      WHERE region = 'us' 
+        AND published_date < ((${boundary_start})::timestamp::date)
+    `;
 
     // Insert new articles
     let insertedCount = 0;
@@ -172,7 +185,7 @@ export async function GET(request: Request) {
             ${article.urlToImage || null},
             'us',
             ${i + 1},
-            (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date,
+            ((${boundary_start})::timestamp::date),
             ${category}
           )
         `;

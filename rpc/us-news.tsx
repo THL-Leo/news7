@@ -1,11 +1,19 @@
 export default function USNews() {
+  const boundary = sql`
+    WITH now_pt AS (
+      SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles') AS now_pt
+    )
+    SELECT ((now_pt - INTERVAL '6 hours')::date + INTERVAL '6 hours') AS boundary_start
+    FROM now_pt
+  `;
+
   const articles = sql`
     SELECT 
       id, title, content, summary, source_name, source_url, 
       image_url, rank, published_date
     FROM articles 
     WHERE region = 'us' 
-      AND published_date = (CURRENT_TIMESTAMP AT TIME ZONE 'America/Los_Angeles')::date
+      AND created_at >= (${boundary})
     ORDER BY rank ASC
     LIMIT 7
   `;

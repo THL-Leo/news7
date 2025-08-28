@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db.mjs';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // Function to detect article category based on content
 function detectCategory(title: string, content: string): string {
